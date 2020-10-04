@@ -27,7 +27,7 @@ def main():
     three_sum_funcs = [ts.three_sum_bruteforce, ts.three_sum_faster, ts.three_sum_fastest]
 
     # Test accuracy of functions
-    valid = verification_tests(three_sum_funcs)
+    valid = verification_tests_bool(three_sum_funcs, print_tests=False)
     print(f"Passed verification test: {valid}\n")
 
     # Init lists for storing timing data
@@ -51,8 +51,6 @@ def main():
 
     # Start with list length 4
     N = 4
-
-    timed_out_algs[0] = True # bypass brute force
 
     # Test algorithm on larger lists as N increases
     while N < sys.maxsize and timed_out is False:
@@ -119,7 +117,7 @@ def main():
         N *= 2
 
 
-def verification_tests(funcs, print_tests=False):
+def verification_tests_tuples(funcs, print_tests=False):
     """Verify consistent results from each algorithm"""
 
     # Increase confidence by running the tests
@@ -154,6 +152,37 @@ def verification_tests(funcs, print_tests=False):
                 return False
 
             N *= 2
+
+    # Return True if all tests are passed
+    return True
+
+
+def verification_tests_bool(funcs, print_tests=False):
+    """Verify consistent results from each algorithm
+    when boolean is returned rather than a list of tuples"""
+
+    N = 5  # use a small list to limit ability to have a valid tuple
+
+    for _ in range(10000):
+
+        rand_ints = ts.generate_test_list(N, -N, N)
+        check = [-1] * 3
+
+        for i in range(3):
+            check[i] = funcs[i](rand_ints)
+
+        # Check if all three lists ar
+        valid = check[0] == check[1] == check[2]
+
+        # Print tests
+        if print_tests:
+            print(f"===== N = {N} =====")
+            for i in range(3):
+                print(f"List {i + 1} contains 3 sum values:\t{check[i]}")
+
+        # Return False as soon as any inconsistency is found
+        if not valid:
+            return False
 
     # Return True if all tests are passed
     return True

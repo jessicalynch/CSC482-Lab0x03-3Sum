@@ -41,16 +41,22 @@ def three_sum_bruteforce(arr):
             # Start inner loop after j
             for k in range(j + 1, arr_size):
 
-                # If all values sum to zero, append to results list
                 if arr[i] + arr[j] + arr[k] == 0:
-                    results.append(tuple(sorted([arr[i], arr[j], arr[k]])))
+                    # If all values sum to zero, append to results list
+                    # results.append(tuple(sorted([arr[i], arr[j], arr[k]])))
+
+                    # or simply return True
+                    return True
 
     # Return list of 3-tuples
-    return results
+    # return results
 
+    # or return False if no valid tuple exists
+    return False
 
 def three_sum_faster(arr):
-    """Find all values that sum to zero using sets"""
+    """Find all values that sum to zero by storing values previously seen
+    in a set, reducing the amount of loops needed to two"""
 
     # Remove duplicates
     arr = list(set(arr))
@@ -75,14 +81,20 @@ def three_sum_faster(arr):
             if val_needed in vals_seen:
 
                 # Append (arr[i], arr[j], -(arr[i] + arr[j])
-                results.append(tuple(sorted((arr[i], arr[j], val_needed))))
+                # results.append(tuple(sorted((arr[i], arr[j], val_needed))))
+
+                # or simply return True
+                return True
 
             # If we have not seen the value, then add arr[j] to the set
             # for future lookups
             vals_seen.add(arr[j])
 
-    return list(set(results))
+    # Return tuples
+    # return list(set(results))
 
+    # or return False if no tuples exist
+    return False
 
 def three_sum_fastest(arr):
     """Find all values that sum to zero by iterating from both ends of list"""
@@ -109,7 +121,10 @@ def three_sum_fastest(arr):
 
             if curr_sum == 0:
                 # Append tuple to results list if it sums to zero
-                results.append((arr[i], arr[left_ind], arr[right_ind]))
+                # results.append((arr[i], arr[left_ind], arr[right_ind]))
+
+                # Or simply return True (the list contains a triplet that sums zero)
+                return True
 
                 # Still increment left index to keep the list moving
                 # and potentially find more values that work with arr[i]
@@ -123,5 +138,10 @@ def three_sum_fastest(arr):
                 # Value is too high, reduce the right index to lower the current sum
                 right_ind -= 1
 
-    return list(set(results))
+    # Return a list of tuples that sum to zero
+    # return list(set(results))
+
+    # or return False if none exist
+    return False
+
 
